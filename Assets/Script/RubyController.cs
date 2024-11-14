@@ -79,5 +79,6 @@ public class RubyController : MonoBehaviour
         CogBulletController cogCon=cogBullet.GetComponent<CogBulletController>();
         cogCon.Launch(lookDirection,5f);
         anim.SetTrigger("Launch");
+        transform.GetChild(0).GetComponent<ParticleSystem>().Stop();
     }
 }
