@@ -13,6 +13,7 @@ public class EnemyController : MonoBehaviour
     int direction = 1;
 
     Animator anim;
+    bool broken =true;
 
     void Start()
     {
@@ -24,6 +25,7 @@ public class EnemyController : MonoBehaviour
 
     void Update()
     {
+        if(!broken) return;
         timer -= Time.deltaTime;
 
         if(timer < 0){
@@ -48,5 +50,10 @@ public class EnemyController : MonoBehaviour
         if(rubyCon != null){
             rubyCon.ChangeHealth(-1);
         }
+    }
+    public void Fix(){
+        broken=false;
+        rb.simulated=false;
+        anim.SetTrigger("Fixed");
     }
 }
