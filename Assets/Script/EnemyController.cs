@@ -11,31 +11,42 @@ public class EnemyController : MonoBehaviour
     Rigidbody2D rb;
     float timer;
     int direction = 1;
+
+    Animator anim;
+
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+        rb=GetComponent<Rigidbody2D>();
         timer = changeTime;
+        anim = GetComponent<Animator>();
+
     }
 
-    // Update is called once per frame
     void Update()
     {
         timer -= Time.deltaTime;
-        if (timer < 0)
-        {
+
+        if(timer < 0){
             direction = -direction;
             timer = changeTime;
         }
         Vector2 pos = rb.position;
 
-        if (isVertical)
-        {
-            pos.y = pos.y + Time.deltaTime * speed * direction;
-        }
-        else
-        {
-            pos.x = pos.x + Time.deltaTime * speed * direction;
+        if(isVertical){
+            pos.y=pos.y + Time.deltaTime * speed * direction;
+            anim.SetFloat("MoveX",0);
+            anim.SetFloat("MoveY",direction);
+        }else{
+            pos.x=pos.x + Time.deltaTime * speed * direction;
+            anim.SetFloat("MoveX",direction);
+            anim.SetFloat("MoveY",0);
         }
         rb.MovePosition(pos);
+    }
+    void OnCollisionEnter2D(Collision2D other) {
+        RubyController rubyCon = other.gameObject.GetComponent<RubyController>();
+        if(rubyCon != null){
+            rubyCon.ChangeHealth(-1);
+        }
     }
 }
